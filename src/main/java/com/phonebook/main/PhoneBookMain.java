@@ -24,19 +24,41 @@ public class PhoneBookMain {
         PhoneBookFormatter renderer = (PhoneBookFormatter) context.getBean("phoneBookFormatter");
 
         renderer.info("type 'exit' to quit.");
-        while (sc.hasNext()) {
-            String line = sc.nextLine();
-            if (line.equals("exit")) {
-                renderer.info("Have a good day...");
-                break;
-            }
-            try {
-                // TODO: add your code here
-                throw new UnsupportedOperationException("Implement it!");
-            } catch (Exception e) {
-                renderer.error(e);
+        renderer.info("Type 'ADD' to add a phone number");
+        renderer.info("Type 'REMOVE_PHONE' to remove a phone from the database");
+        renderer.info("Type 'SHOW' to show phonebook");
+        while(true){
+            while (sc.hasNext()) {
+                String line = sc.nextLine();
+                if (line.equals("exit")) {
+                    renderer.info("Have a good day...");
+                    break;
+                }
+                try {
+                    // TODO: add your code here
+                    // throw new UnsupportedOperationException("Implement it!");
+                    if(line.equals("ADD")){
+                        String name = sc.next();
+                        String phone = sc.next();
+                        phoneBook.addPhone(name, phone);
+                        renderer.show(phoneBook.findAll());
+                        break;
+                    } else if(line.equals("REMOVE_PHONE")){
+                        String phoneToBeRemoved = sc.next();
+                        phoneBook.removePhone(phoneToBeRemoved);
+                        renderer.show(phoneBook.findAll());
+                        break;
+                    } else if (line.equals("SHOW")){
+                        renderer.show(phoneBook.findAll());
+                        break;
+                    }
+
+                } catch (Exception e) {
+                    renderer.error(e);
+                }
             }
         }
+
     }
 
     static ApplicationContext newApplicationContext(String... args) {
