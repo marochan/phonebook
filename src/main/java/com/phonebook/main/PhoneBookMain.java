@@ -27,7 +27,7 @@ public class PhoneBookMain {
         renderer.info("Type 'ADD' to add a phone number");
         renderer.info("Type 'REMOVE_PHONE' to remove a phone from the database");
         renderer.info("Type 'SHOW' to show phonebook");
-        while(true){
+
             while (sc.hasNext()) {
                 String line = sc.nextLine();
                 if (line.equals("exit")) {
@@ -59,7 +59,7 @@ public class PhoneBookMain {
             }
         }
 
-    }
+
 
     static ApplicationContext newApplicationContext(String... args) {
         return args.length > 0 && args[0].equals("classPath")

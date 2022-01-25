@@ -8,14 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class})
+
 public class PhoneBookTest {
 
     @Autowired
@@ -24,10 +27,37 @@ public class PhoneBookTest {
     // TODO: implement a couple of tests for PhoneBook.class
     @Test
     public void get_person_phone_numbers() {
-        final Set<String> expected = new HashSet<>(asList("+79601232233"));
+        final Set<String> expected = new HashSet<>(asList("+7960123223"));
         assertEquals("phone numbers do not match",
                 expected,
                 phoneBook.findAll().get("Alex"));
     }
+
+    @Test
+    public void add_person_to_phonebook(){
+        String name = "James";
+        String[] numbers = {"+123456789", "+1122334455", "089043433"};
+        for(int i = 0; i < numbers.length; i++) {
+            phoneBook.addPhone(name, numbers[i]);
+        }
+        final Set<String> expected = new HashSet<>(asList("+123456789", "+1122334455", "089043433"));
+        assertEquals("phone number does not match", expected, phoneBook.findAll().get(name));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void remove_newly_added_person() {
+
+        String name = "James";
+        String phone = "+123456789";
+        phoneBook.addPhone(name, phone);
+        assertTrue("User added to the database",
+                phoneBook.findAll().get(name).contains(phone));
+
+        phoneBook.removePhone(phone);
+        assertFalse(phoneBook.findAll().containsKey(name));
+        phoneBook.removePhone(phone);
+    }
+
+
 
 }
