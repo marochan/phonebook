@@ -51,6 +51,8 @@ public class PhoneBookMain {
                     } else if (line.equals("SHOW")){
                         renderer.show(phoneBook.findAll());
                         break;
+                    } else {
+                        renderer.error(new UnsupportedOperationException("Allowed operations: ADD, REMOVE_PHONE, SHOW, exit"));
                     }
 
                 } catch (Exception e) {
