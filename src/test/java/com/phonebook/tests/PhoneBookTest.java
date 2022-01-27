@@ -21,6 +21,11 @@ import static org.junit.Assert.*;
 
 public class PhoneBookTest {
 
+    @Test
+    public void test(){
+        System.out.println(" ");
+    }
+/*
     @Autowired
     private PhoneBook phoneBook;
 
@@ -59,5 +64,5 @@ public class PhoneBookTest {
     }
 
 
-
+*/
 }

@@ -3,7 +3,10 @@ package com.phonebook.spring;
 import com.phonebook.main.InMemoryRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Keeps phoneBook data in memory in ordered in accordance to addition.
@@ -13,6 +16,7 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
 
     private Map<String, Set<String>> data;
     private PhoneBookFormatter formatter;
+
     /**
      * no args constructor
      */
@@ -38,63 +42,57 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
     @Override
     public Set<String> findAllPhonesByName(String name) {
         boolean isNameFound = data.containsKey(name);
-        if(isNameFound==false){
+        if (isNameFound == false) {
             System.out.println("Provided name has not been found ");
-            return  null;
+            return null;
         } else {
             return this.data.get(name);
         }
-       // throw new UnsupportedOperationException("Implement it!");
     }
 
     @Override
     public String findNameByPhone(String phone) {
 
-        for(Map.Entry<String, Set<String>> entry : data.entrySet()){
-            if(entry.getValue().contains(phone)){
+        for (Map.Entry<String, Set<String>> entry : data.entrySet()) {
+            if (entry.getValue().contains(phone)) {
                 return entry.getKey();
             }
         }
-        //throw new UnsupportedOperationException("Implement it!");
         return "Provided phone number could not be found in the database";
     }
 
     @Override
     public void addPhone(String name, String phone) {
-
-            if(data.containsKey(name)){
-                data.get(name).add(phone);
-            } else {
-                data.put(name, new HashSet<String>());
-                data.get(name).add(phone);
-            }
-            System.out.println("Number: " + phone + " has been added for user: " + name );
-
-       // throw new UnsupportedOperationException("Implement it!");
+        data.computeIfAbsent(name, v -> new HashSet<String>()).add(phone);
+        System.out.println("Number: " + phone + " has been added for user: " + name);
     }
 
     @Override
     public void removePhone(String phone) throws IllegalArgumentException {
-
         boolean phoneIsPresent = false;
 
-        for(Map.Entry<String, Set<String>> entry : data.entrySet()){
+        for (Map.Entry<String, Set<String>> entry : data.entrySet()) {
             String name = entry.getKey();
             Set<String> phoneNumbers = entry.getValue();
-            if(phoneNumbers.contains(phone)){
+            if (phoneNumbers.remove(phone)) {
                 phoneIsPresent = true;
-                phoneNumbers.remove(phone);
-                if(phoneNumbers.isEmpty()){
-                    data.remove(name);
-                }
                 System.out.println("Removing: " + phone);
-                System.out.println("No more numbers present, removing user: " + name);
+                if (phoneNumbers.isEmpty()) {
+                    data.remove(name);
+                    System.out.println("No more numbers present, removing user: " + name);
+                }
                 break;
             }
         }
-        if(phoneIsPresent == false){
+        if (phoneIsPresent == false) {
             throw new IllegalArgumentException("Provided phone number has not been found in the database!");
         }
-        // throw new UnsupportedOperationException("Implement it!");
+    }
+
+    @Override
+    public void deleteRecord(String name) throws IllegalArgumentException {
+
+        data.remove(name);
+        System.out.println("User:" + name + "has been deleted from the phonebook");
     }
 }
