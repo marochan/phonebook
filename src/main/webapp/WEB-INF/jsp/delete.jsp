@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Write a name to be deleted below</h1>
-<form:form modelAttribute="deletion">
+<form:form modelAttribute="deletion" >
     <table>
         <tr>
             <td>
@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="Delete">
+                <input type="submit" value="Delete" >
             </td>
         </tr>
     </table>

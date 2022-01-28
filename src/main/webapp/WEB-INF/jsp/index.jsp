@@ -10,5 +10,6 @@
     <a href="registration">Add a new number</a>
     <a href="phonebook">See all contacts</a>
     <a href="delete">Delete a number</a>
+
 </body>
 </html>

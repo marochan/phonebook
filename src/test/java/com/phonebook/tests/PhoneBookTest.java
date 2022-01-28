@@ -25,7 +25,7 @@ public class PhoneBookTest {
     public void test(){
         System.out.println(" ");
     }
-/*
+
     @Autowired
     private PhoneBook phoneBook;
 
@@ -64,5 +64,5 @@ public class PhoneBookTest {
     }
 
 
-*/
+
 }

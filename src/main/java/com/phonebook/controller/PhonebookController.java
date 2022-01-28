@@ -64,7 +64,7 @@ public class PhonebookController {
         return "redirecting";
     }
 
-    @PostMapping("/delete/{name}")
+    @DeleteMapping("/delete/{name}")
     public String deleteRecordByName(@PathVariable("name") String name){
         phonebook.deleteRecord(name);
         return "index";
