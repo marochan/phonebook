@@ -3,16 +3,13 @@ package com.phonebook.spring;
 import com.phonebook.main.InMemoryRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Keeps phoneBook data in memory in ordered in accordance to addition.
  */
 @Repository
-public class InMemoryRepositoryIml implements InMemoryRepository {
+public class InMemoryRepositoryIml extends InMemoryRepositoryImlSteps implements InMemoryRepository {
 
     private Map<String, Set<String>> data;
     private PhoneBookFormatter formatter;
@@ -40,11 +37,12 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
     }
 
     @Override
-    public Set<String> findAllPhonesByName(String name) {
+    public Set<String> findAllPhonesByName(String nameToValidate) {
+
+        String name = nameValidation(nameToValidate);
         boolean isNameFound = data.containsKey(name);
-        if (isNameFound == false) {
-            System.out.println("Provided name has not been found ");
-            return null;
+        if (!isNameFound) {
+            throw new IllegalArgumentException("Name has not been found in the phonebook");
         } else {
             return this.data.get(name);
         }
@@ -53,6 +51,7 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
     @Override
     public String findNameByPhone(String phone) {
 
+        phoneValidation(phone);
         for (Map.Entry<String, Set<String>> entry : data.entrySet()) {
             if (entry.getValue().contains(phone)) {
                 return entry.getKey();
@@ -62,9 +61,20 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
     }
 
     @Override
-    public void addPhone(String name, String phone) {
-        data.computeIfAbsent(name, v -> new HashSet<String>()).add(phone);
-        System.out.println("Number: " + phone + " has been added for user: " + name);
+    public void addPhone(String nameToValidate, String phoneToValidate) {
+        String name = nameValidation(nameToValidate);
+        if (name == null) {
+            throw new IllegalArgumentException("Name should only consist of letters");
+        }
+        String phone = phoneValidation(phoneToValidate);
+        try {
+            data.computeIfAbsent(name, v -> new HashSet<String>()).add(phone);
+            sortPhoneBookByName();
+            System.out.println("Number: " + phone + " has been added for user: " + name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -79,6 +89,7 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
                 System.out.println("Removing: " + phone);
                 if (phoneNumbers.isEmpty()) {
                     data.remove(name);
+                    sortPhoneBookByName();
                     System.out.println("No more numbers present, removing user: " + name);
                 }
                 break;
@@ -90,9 +101,25 @@ public class InMemoryRepositoryIml implements InMemoryRepository {
     }
 
     @Override
-    public void deleteRecord(String name) throws IllegalArgumentException {
+    public void deleteRecord(String nameToValidate) throws IllegalArgumentException {
+        String name = nameValidation(nameToValidate);
 
-        data.remove(name);
-        System.out.println("User:" + name + "has been deleted from the phonebook");
+        if (data.remove(name) == null) {
+            throw new NullPointerException("Provided number has not been found in the phonebook");
+        } else {
+            sortPhoneBookByName();
+            System.out.println("User:" + name + "has been deleted from the phonebook");
+        }
+    }
+
+    public void sortPhoneBookByName() {
+
+        List<String> keys = new ArrayList<String>(data.keySet());
+        Collections.sort(keys);
+        LinkedHashMap<String, Set<String>> newData = new LinkedHashMap<String, Set<String>>();
+        for (String s : keys) {
+            newData.put(s, data.get(s));
+        }
+        data = newData;
     }
 }

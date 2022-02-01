@@ -30,7 +30,7 @@ public class PhonebookController {
     }
 
     @GetMapping("/phonebook/{name}")
-    public ResponseEntity<Set<String>> findPhonesByname(@PathVariable("name") String name) {
+    public ResponseEntity<Set<String>> findPhonesByname(@PathVariable("name") String name) throws Exception{
         return ResponseEntity.ok(phonebook.findAllPhonesByName(name));
     }
 
@@ -55,18 +55,11 @@ public class PhonebookController {
     @PostMapping("/delete")
     public String delete(@ModelAttribute("deletion") Deletion deletion, RedirectAttributes redirectAttributes) {
         String name = deletion.getName();
-        redirectAttributes.addAttribute("name", name);
-        return "redirect:/delete/{name}";
-    }
-
-    @GetMapping("/delete/{name}")
-    public String deletion(){
-        return "redirecting";
-    }
-
-    @DeleteMapping("/delete/{name}")
-    public String deleteRecordByName(@PathVariable("name") String name){
         phonebook.deleteRecord(name);
         return "index";
     }
+    //validating if the string provided is actually a number
+    //alphabetical order of the phonebook
+    //validation if the number was added to the phonebook
+    //negative test
 }

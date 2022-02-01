@@ -1,4 +1,4 @@
-package com.phonebook.tests;
+package com.phonebook.tests.ui;
 
 import com.phonebook.spring.ApplicationConfig;
 import com.phonebook.spring.PhoneBook;
@@ -49,13 +49,13 @@ public class PhoneBookTest {
         assertEquals("phone number does not match", expected, phoneBook.findAll().get(name));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void remove_newly_added_person() {
 
         String name = "James";
         String phone = "+123456789";
         phoneBook.addPhone(name, phone);
-        assertTrue("User added to the database",
+        assertFalse("User added to the database",
                 phoneBook.findAll().get(name).contains(phone));
 
         phoneBook.removePhone(phone);

@@ -1,7 +1,7 @@
-package com.phonebook.tests.runner;
+package com.phonebook.tests.ui.runner;
 
 
-import com.phonebook.tests.listener.TestListener;
+import com.phonebook.tests.ui.listener.TestListener;
 import org.junit.AssumptionViolatedException;
 import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.notification.RunNotifier;

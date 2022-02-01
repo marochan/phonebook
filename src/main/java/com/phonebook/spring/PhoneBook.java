@@ -52,11 +52,11 @@ public class PhoneBook {
     public void addPhone(String name, String phone){
         repository.addPhone(name, phone);
     }
-    public Set<String> findAllPhonesByName(String name){
+    public Set<String> findAllPhonesByName(String name) {
         return repository.findAllPhonesByName(name);
     }
 
-    public String findNameByPhone(String phone){
+    public String findNameByPhone(String phone) throws Exception{
         return repository.findNameByPhone(phone);
     }
 
@@ -66,5 +66,9 @@ public class PhoneBook {
 
     public void deleteRecord(String name){
         repository.deleteRecord(name);
+    }
+    public void sortPhoneBookByName(Map<String, Set<String>> data) {
+        data.entrySet().stream()
+                .sorted(Map.Entry.<String, Set<String>>comparingByKey());
     }
 }

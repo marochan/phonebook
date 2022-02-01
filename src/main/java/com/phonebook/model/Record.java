@@ -1,7 +1,11 @@
 package com.phonebook.model;
 
+import com.sun.istack.internal.NotNull;
+
 public class Record {
+    @NotNull
     private String name;
+    @NotNull
     private String phone;
 
     public String getName() {

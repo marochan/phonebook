@@ -1,4 +1,4 @@
-package com.phonebook.tests.listener;
+package com.phonebook.tests.ui.listener;
 
 import org.junit.Ignore;
 import org.junit.runner.Description;
