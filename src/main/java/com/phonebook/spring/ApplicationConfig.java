@@ -1,6 +1,7 @@
 package com.phonebook.spring;
 
 import com.phonebook.main.InMemoryRepository;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

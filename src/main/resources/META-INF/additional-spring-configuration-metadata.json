@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "registrationUrl",
+      "type": "java.lang.String",
+      "description": "Stores url for registration page in the phonebook application."
+    },
+    {
+      "name": "deletionUrl",
+      "type": "java.lang.String",
+      "description": "Stores url for deletion page in the phonebook application."
+    },
+    {
+      "name": "registrationRef",
+      "type": "java.lang.String",
+      "description": "Stores the value of href which is used in proceed to register a new phone."
+    },
+    {
+      "name": "deletionRef",
+      "type": "java.lang.String",
+      "description": "Stores the value of href which is used in proceed to delete a person from phonebook."
+    }
+  ]
+}

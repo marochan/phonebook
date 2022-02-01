@@ -1,6 +1,7 @@
 package com.phonebook.model;
 
-import com.sun.istack.internal.NotNull;
+
+import org.jetbrains.annotations.NotNull;
 
 public class Record {
     @NotNull

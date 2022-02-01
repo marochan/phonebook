@@ -16,11 +16,7 @@ import java.util.Set;
 public class DeleteNumberNegativeTest extends TestSteps {
     @Test
     public void deleteNumber() throws JsonProcessingException {
-        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-        driver.findElement(By.linkText("Delete a number")).click();
-        Assert.assertEquals("The title of this page didnt match the expected one","Delete a number", driver.getTitle());
-        Assert.assertEquals("The actual url is different from the on expected", "http://localhost:8080/api/v1/customers/delete", driver.getCurrentUrl());
-
+        assertsOnHomepageThenAddNumber(deletionRef, deletionURL);
         By name =  By.xpath("//input[@id='name']");
         By deleteButton = By.xpath("//input[@type='submit']");
         String nameToBeDeleted = nameValidation(generateParameter(10,"name"));
@@ -28,6 +24,8 @@ public class DeleteNumberNegativeTest extends TestSteps {
         driver.findElement(name).sendKeys(nameToBeDeleted);
         driver.findElement(deleteButton).click();
         Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-
+        driver.navigate().back();
+        Map<String,Set<String>> map = seeAllContacts();
+        Assert.assertFalse(map.containsKey(nameToBeDeleted));
     }
 }

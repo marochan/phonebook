@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.phonebook.tests.ui.base.BaseTest;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -74,6 +75,16 @@ public class TestSteps extends BaseTest {
         driver.findElement(submitButton).click();
     }
 
+    public Map<String, Set<String>> seeAllContacts() throws JsonProcessingException {
+        driver.findElement(By.linkText("See all contacts")).click();
+        WebElement body = driver.findElement(By.tagName("pre"));
+        String bodyString = body.getText();
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Set<String>> map = mapper.readValue(bodyString, new TypeReference<Map<String, Set<String>>>() {
+        });
+        return map;
+    }
+
     public int checkIfMapIsSorted(Map<String, Set<String>> map) throws JsonProcessingException {
 
         Object[] keys = map.keySet().toArray();
@@ -85,5 +96,13 @@ public class TestSteps extends BaseTest {
         }
         System.out.println("Map is sorted properly");
         return 0;
+    }
+
+    public void assertsOnHomepageThenAddNumber(String toClick, String url){
+        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
+        driver.findElement(By.linkText(toClick)).click();
+        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
+        Assert.assertEquals("The actual url is different from the on expected", url, driver.getCurrentUrl());
+
     }
 }

@@ -8,29 +8,26 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Map;
 import java.util.Set;
 
 public class AddNumberPositiveTest extends TestSteps {
+
+
     @Test
     public void addNumber() throws JsonProcessingException {
-        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-        driver.findElement(By.linkText("Add a new number")).click();
-        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-        Assert.assertEquals("The actual url is different from the on expected", "http://localhost:8080/api/v1/customers/registration", driver.getCurrentUrl());
 
+
+        assertsOnHomepageThenAddNumber(registrationRef,registrationURL );
         String contactName = nameValidation(generateParameter(10,"name"));
         String contactPhone =  generateParameter(11, "phone");
         add(contactName,contactPhone);
 
         Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-        driver.findElement(By.linkText("See all contacts")).click();
-        WebElement body = driver.findElement(By.tagName("pre"));
-        String bodyString = body.getText();
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Set<String>> map = mapper.readValue(bodyString, new TypeReference<Map<String, Set<String>>>() {
-        });
+
+        Map<String,Set<String>> map = seeAllContacts();
         System.out.println("Contact name: " + contactName);
         System.out.println("Contact phone: " + contactPhone  );
         System.out.println(map);

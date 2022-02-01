@@ -22,24 +22,14 @@ public class DeleteNumberPositiveTest extends TestSteps {
         String contactPhone =  generateParameter(11, "phone");
         add(contactName, contactPhone);
 
-        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-        driver.findElement(By.linkText("Delete a number")).click();
-        Assert.assertEquals("The title of this page didnt match the expected one","Delete a number", driver.getTitle());
-        Assert.assertEquals("The actual url is different from the on expected", "http://localhost:8080/api/v1/customers/delete", driver.getCurrentUrl());
-
+        assertsOnHomepageThenAddNumber(deletionRef, deletionURL);
         By deleteName =  By.xpath("//input[@id='name']");
         By deleteButton = By.xpath("//input[@type='submit']");
-
 
         driver.findElement(deleteName).sendKeys(contactName);
         driver.findElement(deleteButton).click();
         Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
-        driver.findElement(By.linkText("See all contacts")).click();
-        WebElement body = driver.findElement(By.tagName("pre"));
-        String bodyString = body.getText();
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Set<String>> map = mapper.readValue(bodyString, new TypeReference<Map<String, Set<String>>>() {
-        });
+        Map<String,Set<String>> map = seeAllContacts();
         Assert.assertFalse("The phonebook is not supposed to store the name but it does",map.containsKey(contactName));
         int isDataSorted = checkIfMapIsSorted(map);
         Assert.assertEquals(0, isDataSorted);
