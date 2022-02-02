@@ -37,9 +37,8 @@ public class InMemoryRepositoryIml extends InMemoryRepositoryImlSteps implements
     }
 
     @Override
-    public Set<String> findAllPhonesByName(String nameToValidate) {
-
-        String name = nameValidation(nameToValidate);
+    public Set<String> findAllPhonesByName(String nameToFormat) {
+        String name = nameformatter(nameToFormat);
         boolean isNameFound = data.containsKey(name);
         if (!isNameFound) {
             throw new IllegalArgumentException("Name has not been found in the phonebook");
@@ -50,8 +49,6 @@ public class InMemoryRepositoryIml extends InMemoryRepositoryImlSteps implements
 
     @Override
     public String findNameByPhone(String phone) {
-
-        phoneValidation(phone);
         for (Map.Entry<String, Set<String>> entry : data.entrySet()) {
             if (entry.getValue().contains(phone)) {
                 return entry.getKey();
@@ -61,12 +58,12 @@ public class InMemoryRepositoryIml extends InMemoryRepositoryImlSteps implements
     }
 
     @Override
-    public void addPhone(String nameToValidate, String phoneToValidate) {
-        String name = nameValidation(nameToValidate);
+    public void addPhone(String nameToFormat, String phone) {
+        String name = nameformatter(nameToFormat);
         if (name == null) {
             throw new IllegalArgumentException("Name should only consist of letters");
         }
-        String phone = phoneValidation(phoneToValidate);
+
         try {
             data.computeIfAbsent(name, v -> new HashSet<String>()).add(phone);
             sortPhoneBookByName();
@@ -101,19 +98,18 @@ public class InMemoryRepositoryIml extends InMemoryRepositoryImlSteps implements
     }
 
     @Override
-    public void deleteRecord(String nameToValidate) throws IllegalArgumentException {
-        String name = nameValidation(nameToValidate);
-
-        if (data.remove(name) == null) {
-            throw new NullPointerException("Provided number has not been found in the phonebook");
-        } else {
+    public int deleteRecord(String nameToFormat) throws IllegalArgumentException {
+        String name = nameformatter(nameToFormat);
+        if(data.remove(name) == null) {
+            return -1;
+        } else{
             sortPhoneBookByName();
             System.out.println("User:" + name + "has been deleted from the phonebook");
+            return 0;
         }
     }
 
     public void sortPhoneBookByName() {
-
         List<String> keys = new ArrayList<String>(data.keySet());
         Collections.sort(keys);
         LinkedHashMap<String, Set<String>> newData = new LinkedHashMap<String, Set<String>>();

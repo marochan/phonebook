@@ -64,8 +64,8 @@ public class PhoneBook {
         repository.removePhone(phone);
     }
 
-    public void deleteRecord(String name){
-        repository.deleteRecord(name);
+    public int deleteRecord(String name){
+       return repository.deleteRecord(name);
     }
     public void sortPhoneBookByName(Map<String, Set<String>> data) {
         data.entrySet().stream()

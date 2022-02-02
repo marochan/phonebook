@@ -1,5 +1,6 @@
 package com.phonebook.tests.ui.base;
 
+import com.phonebook.spring.ApplicationConfig;
 import com.phonebook.tests.ui.runner.TestRunner;
 import org.junit.After;
 import org.junit.Before;
@@ -8,12 +9,17 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(TestRunner.class)
+@RunWith(SpringRunner.class)
 @TestPropertySource("classpath:application.properties")
+@SpringBootTest(classes = ApplicationConfig.class)
 public class BaseTest {
     protected  WebDriver driver;
 
@@ -29,19 +35,15 @@ public class BaseTest {
     @Value("${deletionUrl}")
     protected String deletionURL;
 
+    @Value("${baseURL}")
+    protected String baseURL;
     @Before
-    public   void setUp(){
+    public void setUp(){
         System.setProperty("webdriver.chrome.driver", "/Users/crokita/Downloads/chromedriver");
         driver = new ChromeDriver();
-        driver.get("http://localhost:8080/api/v1/customers");
+        driver.get(baseURL);
     }
-    @Test
-    public void print(){
-        System.out.println(this.registrationRef);
-        System.out.println(this.registrationURL);
-        System.out.println(this.deletionRef);
-        System.out.println(this.deletionURL);
-    }
+
     @After
     public   void tearDown(){
         driver.quit();

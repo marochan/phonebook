@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.phonebook.tests.ui.base.BaseTest;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
@@ -76,6 +77,7 @@ public class TestSteps extends BaseTest {
     }
 
     public Map<String, Set<String>> seeAllContacts() throws JsonProcessingException {
+        driver.get(baseURL);
         driver.findElement(By.linkText("See all contacts")).click();
         WebElement body = driver.findElement(By.tagName("pre"));
         String bodyString = body.getText();
@@ -98,10 +100,13 @@ public class TestSteps extends BaseTest {
         return 0;
     }
 
-    public void assertsOnHomepageThenAddNumber(String toClick, String url){
+    public void assertsOnHomepageThenAddNumber(String toClick, String url, String pageTtitle) throws InterruptedException {
+
         Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
         driver.findElement(By.linkText(toClick)).click();
-        Assert.assertEquals("The title of this page didnt match the expected one","Phonebook homepage", driver.getTitle());
+        WebElement element =  driver.findElement(By.tagName("body"));
+        System.out.println(element.getText());
+        Assert.assertEquals("The title of this page didnt match the expected one",pageTtitle, driver.getTitle());
         Assert.assertEquals("The actual url is different from the on expected", url, driver.getCurrentUrl());
 
     }

@@ -1,12 +1,20 @@
 package com.phonebook.model;
 
 
-import org.jetbrains.annotations.NotNull;
+import com.phonebook.customAnnotations.annotations.ValidName;
+import com.phonebook.customAnnotations.annotations.ValidPhone;
+
+import javax.validation.constraints.NotEmpty;
+
 
 public class Record {
-    @NotNull
+
+    @NotEmpty
+    @ValidName
     private String name;
-    @NotNull
+
+    @NotEmpty
+    @ValidPhone
     private String phone;
 
     public String getName() {
@@ -16,6 +24,7 @@ public class Record {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getPhone() {
         return phone;

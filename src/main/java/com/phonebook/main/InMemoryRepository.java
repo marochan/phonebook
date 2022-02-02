@@ -44,5 +44,5 @@ public interface InMemoryRepository {
      * removes a record from phonebook by the provided name
      */
 
-    void deleteRecord(String name) throws IllegalArgumentException;
+    int deleteRecord(String name) throws IllegalArgumentException;
 }

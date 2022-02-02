@@ -4,12 +4,15 @@ import com.phonebook.model.Deletion;
 import com.phonebook.model.Record;
 import com.phonebook.spring.PhoneBook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,10 +43,18 @@ public class PhonebookController {
     }
 
     @PostMapping("/registration")
-    public String createNewRecordInPhonebook(@ModelAttribute("record") Record registration) {
+    public String createNewRecordInPhonebook(@Valid @ModelAttribute("record") Record registration, BindingResult result) {
+        if (result.hasErrors()){
+            System.out.println("Error while loading page");
+            result.getAllErrors().stream().forEach(x-> System.out.println(x));
+            return "registration";
+        }
         String name = registration.getName();
         String phone = registration.getPhone();
+        System.out.println(name);
+        System.out.println(phone);
         phonebook.addPhone(name, phone);
+
         return "index";
     }
 
@@ -53,10 +64,19 @@ public class PhonebookController {
     }
 
     @PostMapping("/delete")
-    public String delete(@ModelAttribute("deletion") Deletion deletion, RedirectAttributes redirectAttributes) {
+    public String delete(@Valid @ModelAttribute("deletion")  Deletion deletion, BindingResult result) {
+        if(result.hasErrors()){
+            System.out.println("Error while loading page");
+            return "delete";
+        }
         String name = deletion.getName();
-        phonebook.deleteRecord(name);
-        return "index";
+        if(phonebook.deleteRecord(name)==-1){
+            return "deleteError";
+        } else {
+            return "index";
+        }
+
+
     }
     //validating if the string provided is actually a number
     //alphabetical order of the phonebook

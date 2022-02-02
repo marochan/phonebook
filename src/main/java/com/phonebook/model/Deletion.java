@@ -1,6 +1,12 @@
 package com.phonebook.model;
 
+import com.phonebook.customAnnotations.annotations.ValidName;
+import org.jetbrains.annotations.NotNull;
+
+
+
 public class Deletion {
+
     public String getName() {
         return name;
     }
@@ -9,6 +15,7 @@ public class Deletion {
         this.name = name;
     }
 
+    @ValidName
     String name;
 
 }

@@ -15,14 +15,14 @@ import java.util.Set;
 
 public class DeleteNumberPositiveTest extends TestSteps {
     @Test
-    public void deleteNumber() throws JsonProcessingException {
+    public void deleteNumber() throws JsonProcessingException, InterruptedException {
         driver.findElement(By.linkText("Add a new number")).click();
 
         String contactName = nameValidation(generateParameter(10,"name"));
         String contactPhone =  generateParameter(11, "phone");
         add(contactName, contactPhone);
 
-        assertsOnHomepageThenAddNumber(deletionRef, deletionURL);
+        assertsOnHomepageThenAddNumber(deletionRef, deletionURL, "Delete a number");
         By deleteName =  By.xpath("//input[@id='name']");
         By deleteButton = By.xpath("//input[@type='submit']");
 

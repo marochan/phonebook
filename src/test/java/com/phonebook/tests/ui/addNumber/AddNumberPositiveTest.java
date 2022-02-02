@@ -17,10 +17,10 @@ public class AddNumberPositiveTest extends TestSteps {
 
 
     @Test
-    public void addNumber() throws JsonProcessingException {
+    public void addNumber() throws JsonProcessingException, InterruptedException {
 
 
-        assertsOnHomepageThenAddNumber(registrationRef,registrationURL );
+        assertsOnHomepageThenAddNumber(registrationRef,registrationURL,"Phonebook homepage" );
         String contactName = nameValidation(generateParameter(10,"name"));
         String contactPhone =  generateParameter(11, "phone");
         add(contactName,contactPhone);

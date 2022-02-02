@@ -19,6 +19,11 @@
       "name": "deletionRef",
       "type": "java.lang.String",
       "description": "Stores the value of href which is used in proceed to delete a person from phonebook."
+    },
+    {
+      "name": "baseURL",
+      "type": "java.lang.String",
+      "description": "Stores the address of the homepage for the phonebook app"
     }
   ]
 }

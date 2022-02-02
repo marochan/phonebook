@@ -12,7 +12,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import java.util.*;
 
 @Configuration
-@ComponentScan(value = {"com.phonebook.spring"})
+@ComponentScan(value = {"com.phonebook.spring", "com.phonebook.model"})
 @PropertySource("classpath:application.properties")
 public class ApplicationConfig {
 
@@ -29,6 +29,7 @@ public class ApplicationConfig {
         Map<String, Set<String>> data = new LinkedHashMap<>();
         data.put("Alex", new HashSet<>(Arrays.asList("+79601232233")));
         data.put("Billy", new HashSet<>(Arrays.asList("+79213215566", "+79213215567", "+79213215568")));
+        data.put("William", new HashSet<>(Arrays.asList("+77985543210")));
         return data;
     }
 
